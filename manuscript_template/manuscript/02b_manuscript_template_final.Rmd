@@ -50,8 +50,19 @@ bibliography: ["../references/my-library.bib", "../references/grateful-refs.bib"
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
+# include=FALSE - prevents CODE and RESULTS from appearing in output
+# echo=FALSE - just prevents CODE from appearing in results
+
 knitr::opts_chunk$set
-# I like to put all of my library calls here, each on a separate line.
+# I like to put all of my library calls here, each on a separate line. Chaining
+# or "listing" is bad form. Why? It raises the barrier to understanding by
+# making things more complicated. The KISS principle (Keep It Simple, Stupid:
+# https://en.wikipedia.org/wiki/KISS_principle) is best when writing code that
+# you expect others to look at e.g.:
+
+# my_packages <- c("dplyr", "mice", "stringr")           # Create vector of packages
+# lapply(my_packages, require, character.only = TRUE)    # Load multiple packages
+
 library(tidyverse)
 library(palmerpenguins)
 library(GGally)
@@ -128,7 +139,7 @@ where $x$ denotes which set of values we are using to calculate the index (obser
 The above demonstrates both "inline" and "display" math formats. If you look at the Source version you will see that it is simply the number of \$ symbols before and after that differentiates between the two. An excellent (and simple) guide on inserting math into your R Markdown documents can be found here:\
 <https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
 
-```{r results = 'asis'}
+```{r results = 'asis', echo=FALSE}
 cite_packages(output = "paragraph", out.dir = "../references/")
 ```
 
