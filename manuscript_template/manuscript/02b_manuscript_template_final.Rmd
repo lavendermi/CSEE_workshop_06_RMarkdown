@@ -17,6 +17,7 @@ header-includes:
     - \doublespacing
     - \usepackage{lineno}
     - \linenumbers
+    - \usepackage{float}            # this controls the placement of images in PDF files (allows fig.pos = 'H')
     - \usepackage{fontspec}         # can only be used with xelatex output
     - \setmainfont{Times New Roman} # can only be used with xelatex output
 
@@ -45,7 +46,7 @@ csl: "../references/ecology-letters.csl"
 # references. Co-authors can just add new entries to the .bib file if they think
 # a citation is relevant. You will know it is setup correctly because you will
 # be able to select your references as you type in "Visual" mode.
-bibliography: ../references/references.bib
+bibliography: ["../references/my-library.bib", "../references/grateful-refs.bib"]   
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
@@ -55,6 +56,11 @@ library(tidyverse)
 library(palmerpenguins)
 library(GGally)
 library(kableExtra)
+library(grateful)
+
+# this bit of code gets all the packages associated with this project and stores
+# the results as a .bib file in the out.dir
+get_pkgs_info(out.dir = "../references/")
 ```
 
 **Title**: The title of your groundbreaking research paper
@@ -122,7 +128,11 @@ where $x$ denotes which set of values we are using to calculate the index (obser
 The above demonstrates both "inline" and "display" math formats. If you look at the Source version you will see that it is simply the number of \$ symbols before and after that differentiates between the two. An excellent (and simple) guide on inserting math into your R Markdown documents can be found here:\
 <https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
 
-Statistical analyses were carried out in R 3.4.0 (R Core Team 2017). All code along with the simulation algorithms used are available on Zenodo / GitHub <https://link_to_archived_release_or_GitHub.com>.
+```{r results = 'asis'}
+cite_packages(output = "paragraph", out.dir = "../references/")
+```
+
+All code along with the simulation algorithms used are available on Zenodo / GitHub <https://link_to_archived_release_or_GitHub.com>.
 
 # Results
 
@@ -150,10 +160,11 @@ penguin_sum <- penguins %>%
   ungroup()
 ```
 
-```{r table_01, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, paged.print=TRUE}
-kable(x = penguin_sum, 
-      col.names = c("Island", "Year", "Mean Body Mass (g)")) %>%
-  kable_styling(latex_options = "hold_position") 
+```{r table_01, echo=FALSE, message=FALSE, warning=FALSE, include=TRUE, paged.print=TRUE}
+# kable(x = penguin_sum, 
+#       col.names = c("Island", "Year", "Mean Body Mass (g)")) %>%
+#   kable_styling(latex_options = "hold_position") 
+
 # without the "hold_position" the table ends up at the top of the page
 # Also, to get this to work in MS Word we need to delete this whole code chunk.
 # I will show you why.
@@ -179,6 +190,8 @@ penguin_sum %>%
 **Figure 1**. Pretty coloured dots about penguins
 
 **Figure 2**. Wow, even prettier plot about penguins that shows stuff
+
+**Figure 3**. Another plot about penguins 🥱
 
 \newpage
 
